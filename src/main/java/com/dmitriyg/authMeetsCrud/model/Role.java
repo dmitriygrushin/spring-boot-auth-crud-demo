@@ -1,6 +1,5 @@
 package com.dmitriyg.authMeetsCrud.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +15,14 @@ public class Role {
     private Integer id;
      
     private String name;
+
+	public Role() {
+	}
+	
+	public Role(Integer id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 
 	public Integer getId() {
 		return id;

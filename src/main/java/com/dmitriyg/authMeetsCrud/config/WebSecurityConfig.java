@@ -24,7 +24,7 @@ public class WebSecurityConfig {
 		return http
 				.authorizeHttpRequests(requests -> requests
 						//.anyRequest().authenticated())
-						.requestMatchers("/").permitAll()
+						.requestMatchers("/*").permitAll()
 						.requestMatchers("/user/**").hasAuthority("USER")
 						.requestMatchers("/moderator/**").hasAuthority("MODERATOR")
 						.requestMatchers("/admin/**").hasAuthority("ADMIN"))
