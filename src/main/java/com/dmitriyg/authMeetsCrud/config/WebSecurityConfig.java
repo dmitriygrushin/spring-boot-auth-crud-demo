@@ -23,11 +23,11 @@ public class WebSecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 		return http
 				.authorizeHttpRequests(requests -> requests
-						//.anyRequest().authenticated())
-						.requestMatchers("/*").permitAll()
-						.requestMatchers("/user/**").hasAuthority("USER")
+						.requestMatchers("/").permitAll()
+						.requestMatchers("/admin/**").hasAuthority("ADMIN")
 						.requestMatchers("/moderator/**").hasAuthority("MODERATOR")
-						.requestMatchers("/admin/**").hasAuthority("ADMIN"))
+						.requestMatchers("/user/**").hasAuthority("USER")
+						.requestMatchers("/**").authenticated())
 				
 				.formLogin(requests -> requests.permitAll())
 
