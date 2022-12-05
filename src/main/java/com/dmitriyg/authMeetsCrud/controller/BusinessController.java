@@ -2,6 +2,7 @@ package com.dmitriyg.authMeetsCrud.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dmitriyg.authMeetsCrud.model.Business;
 import com.dmitriyg.authMeetsCrud.model.User;
@@ -37,16 +39,26 @@ public class BusinessController {
 	}
 
 	@GetMapping("/create")
-	public String create(Model model) {
+	public String createForm(Model model) {
 		Business business = new Business();
 		business.setDate(LocalDate.now());
 		model.addAttribute("business", business);
 
-		return "business/create";
+		return "business/save";
+	}
+
+	@GetMapping("/update")
+	public String updateForm(@RequestParam("businessId") int id, Model model) {
+		Optional<Business> business = businessService.findById(id);
+		if (business.isEmpty()) return "business/notFound";
+
+		model.addAttribute("business", business.get());
+		return "business/save";
+			
 	}
 	
 	@PostMapping("")
-	public String create(@ModelAttribute("business") Business business) {
+	public String save(@ModelAttribute("business") Business business) {
 		business.setUser(userService.getCurrentAuthenticatedUser());
 		businessService.save(business);
 

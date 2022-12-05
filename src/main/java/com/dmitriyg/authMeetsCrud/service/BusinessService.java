@@ -1,5 +1,7 @@
 package com.dmitriyg.authMeetsCrud.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,10 @@ public class BusinessService {
 
 	public void save(Business business) {
 		businessRepository.save(business);
+	}
+
+	public Optional<Business> findById(int id) {
+		return businessRepository.findById(id);
 	}
 
 }
