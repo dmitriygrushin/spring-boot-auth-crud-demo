@@ -34,7 +34,7 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
     
-	@OneToMany(mappedBy="user", cascade={CascadeType.MERGE}) 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user", cascade={CascadeType.MERGE}) 
     private List<Business> businesses;
 
 	public int getId() {
@@ -77,6 +77,14 @@ public class User {
 		this.roles = roles;
 	}
 	
+	public List<Business> getBusinesses() {
+		return businesses;
+	}
+
+	public void setBusinesses(List<Business> businesses) {
+		this.businesses = businesses;
+	}
+
 	public void addRole(Role role) {
 		this.roles.add(role);
 	}

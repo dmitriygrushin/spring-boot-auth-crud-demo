@@ -10,14 +10,24 @@
 </head>
 <body>
 
-<h1>Welcome!</h1>
-<div>
-	<h3><a th:href="@{/register}">Register</a></h3>
-	<h3><a th:href="@{/login}">Login</a></h3>
-	<br>
-	<h2>Business</h2>
-	<h3><a th:href="@{/business}">List</a></h3>
-	<h3><a th:href="@{/business/create}">Create</a></h3>
-</div>
+<table>
+	<thead>
+		<tr> 
+			<th>Name</th>
+			<th>Description</th>
+			<th>Date</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		<tr th:each="business : ${businesses}"> 
+			<td th:text="${business.name}"/>
+			<td th:text="${business.description}"/>
+			<td th:text="${business.date}"/>
+		</tr>	
+	</tbody>
+</table>
+<br><br>
+
 </body>
 </html>
