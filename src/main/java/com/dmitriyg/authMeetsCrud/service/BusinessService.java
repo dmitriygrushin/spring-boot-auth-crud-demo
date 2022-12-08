@@ -20,5 +20,9 @@ public class BusinessService {
 	public Optional<Business> findById(int id) {
 		return businessRepository.findById(id);
 	}
+	
+	public void deleteById(int id) {
+		businessRepository.deleteById(id);
+	}
 
 }

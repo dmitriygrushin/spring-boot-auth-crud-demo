@@ -28,7 +28,7 @@ public class BusinessController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping("")
+	@GetMapping("/list")
 	public String list(Model model) {
 		int userId = userService.getCurrentAuthenticatedUser().getId();
 		User user = userService.getById(userId);
@@ -57,16 +57,24 @@ public class BusinessController {
 			
 	}
 	
-	@PostMapping("")
+	@PostMapping("/save")
 	public String save(@ModelAttribute("business") Business business) {
 		business.setUser(userService.getCurrentAuthenticatedUser());
 		businessService.save(business);
 
-		return "redirect:/";
+		return "redirect:/business/list";
 	}
-
-
 	
-	
+	@GetMapping("/delete")
+	public String delete(@RequestParam("businessId") int id, Model model) {
+		try {
+			businessService.deleteById(id);
+		} catch (Exception e) {
+			return "business/notFound";
+		}
+
+		return "redirect:/business/list";
+			
+	}
 
 }

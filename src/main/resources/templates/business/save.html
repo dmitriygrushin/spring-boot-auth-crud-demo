@@ -13,7 +13,7 @@
 
 <div>
 
-<form th:action="@{/business}" th:object="${business}" method="POST">
+<form th:action="@{/business/save}" th:object="${business}" method="POST">
 
 	<input type="hidden" th:field="*{id}" />
 	<input type="text" th:field="*{name}" placeholder="name">
