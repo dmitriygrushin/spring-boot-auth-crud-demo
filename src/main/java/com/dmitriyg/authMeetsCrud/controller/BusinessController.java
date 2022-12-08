@@ -1,6 +1,7 @@
 package com.dmitriyg.authMeetsCrud.controller;
 
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,9 +51,9 @@ public class BusinessController {
 	@GetMapping("/update")
 	public String updateForm(@RequestParam("businessId") int id, Model model) {
 		Optional<Business> business = businessService.findById(id);
-		if (business.isEmpty()) return "business/notFound";
 
 		model.addAttribute("business", business.get());
+
 		return "business/save";
 			
 	}
@@ -67,11 +68,7 @@ public class BusinessController {
 	
 	@GetMapping("/delete")
 	public String delete(@RequestParam("businessId") int id, Model model) {
-		try {
-			businessService.deleteById(id);
-		} catch (Exception e) {
-			return "business/notFound";
-		}
+		businessService.deleteById(id);
 
 		return "redirect:/business/list";
 			
