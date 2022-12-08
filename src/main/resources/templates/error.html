@@ -9,15 +9,12 @@
   <meta name="description" content="" />
 </head>
 <body>
+	<h1>An error occurred</h1>
+	
+	<h2>URL:</h2>
+	<p th:text="${url}"></p>
 
-<h1>Welcome!</h1>
-<div>
-	<h3><a th:href="@{/register}">Register</a></h3>
-	<h3><a th:href="@{/login}">Login</a></h3>
-	<br>
-	<h2>Business</h2>
-	<h3><a th:href="@{/business/list}">List</a></h3>
-	<h3><a th:href="@{/business/create}">Create</a></h3>
-</div>
+	<h2>Message: </h2>
+	<p th:text="${message}"></p>
 </body>
 </html>

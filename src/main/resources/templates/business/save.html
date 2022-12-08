@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+  <title>Hello, world!</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+</head>
+<body>
+<h1>Save Business</h1>
+
+<div>
+
+<form th:action="@{/business/save}" th:object="${business}" method="POST">
+
+	<input type="hidden" th:field="*{id}" />
+	<input type="text" th:field="*{name}" placeholder="name">
+	<input type="text" th:field="*{description}" placeholder="description">
+	<input type="hidden" th:field="*{date}" />
+	<input type="hidden" th:field="*{user}" />
+
+
+	<button type="submit">Save</button>
+</form>
+
+</div>
+</body>
+</html>

@@ -1,10 +1,10 @@
 package com.dmitriyg.authMeetsCrud.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,7 +22,7 @@ public class User {
  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
  
     private String username;
     private String password;
@@ -32,12 +33,15 @@ public class User {
 				joinColumns = @JoinColumn(name = "user_id"),
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+    
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user", cascade={CascadeType.MERGE}) 
+    private List<Business> businesses;
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -73,8 +77,22 @@ public class User {
 		this.roles = roles;
 	}
 	
+	public List<Business> getBusinesses() {
+		return businesses;
+	}
+
+	public void setBusinesses(List<Business> businesses) {
+		this.businesses = businesses;
+	}
+
 	public void addRole(Role role) {
 		this.roles.add(role);
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", enabled=" + enabled
+				+ ", roles=" + roles + "]";
 	}
  
 }
