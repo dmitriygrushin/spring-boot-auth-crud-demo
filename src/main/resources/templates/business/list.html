@@ -1,28 +1,19 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<div th:replace="~{fragments/aboveMain.html}"></div>
 
-<head>
-  <title>Hello, world!</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="" />
-</head>
-<body>
 
-<table>
+<table class="table table-striped">
 	<thead>
 		<tr> 
-			<th>Name</th>
-			<th>Description</th>
-			<th>Date</th>
-			<th>Action</th>
+			<th scope="col">Name</th>
+			<th scope="col">Description</th>
+			<th scope="col">Date (YYYY-MM-DD)</th>
+			<th scope="col">Action</th>
 		</tr>
 	</thead>
 	
 	<tbody>
 		<tr th:each="business : ${businesses}"> 
-			<td th:text="${business.name}"/>
+			<th scope="row" th:text="${business.name}"/>
 			<td th:text="${business.description}"/>
 			<td th:text="${business.date}"/>
 
@@ -30,6 +21,7 @@
 				<a th:href="@{/business/update(businessId=${business.id})}">
 					Update
 				</a>	
+				|	
 				<a th:href="@{/business/delete(businessId=${business.id})}">
 					Delete
 				</a>	
@@ -41,5 +33,4 @@
 </table>
 <br><br>
 
-</body>
-</html>
+<div th:replace="~{fragments/belowMain.html}"></div>
