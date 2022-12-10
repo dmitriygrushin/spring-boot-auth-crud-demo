@@ -21,6 +21,11 @@ public class AuthenticationController {
 
 		return "authentication/register";
 	}
+
+	@GetMapping("/login")
+	public String loginForm() {
+		return "authentication/login";
+	}
 	
 	@PostMapping("/register")
 	public String register(User user) {
