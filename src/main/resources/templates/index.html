@@ -1,23 +1,22 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<div th:replace="~{fragments/aboveMain.html}"></div>
 
-<head>
-  <title>Hello, world!</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="" />
-</head>
-<body>
-
-<h1>Welcome!</h1>
-<div>
-	<h3><a th:href="@{/register}">Register</a></h3>
-	<h3><a th:href="@{/login}">Login</a></h3>
-	<br>
-	<h2>Business</h2>
-	<h3><a th:href="@{/business/list}">List</a></h3>
-	<h3><a th:href="@{/business/create}">Create</a></h3>
+<div class="container">
+  <div class="row">
+    <div class="col">
+    </div>
+    <div class="col-10">
+		<div class="jumbotron">
+		  <h1 class="display-4">Welp ¯\_(ツ)_/¯</h1>
+		  <p class="lead">Had a bad experience? Welp at least know you can complain about it here</p>
+		  <p>Complain about it and it's likely your next visit will be better. Remember a closed mouth doesn't get fed.</p>
+		  <hr class="my-4">
+		  <p>Welp, go for it.</p>
+		</div>
+    </div>
+    <div class="col">
+    </div>
+  </div>
 </div>
-</body>
-</html>
+
+
+<div th:replace="~{fragments/belowMain.html}"></div>

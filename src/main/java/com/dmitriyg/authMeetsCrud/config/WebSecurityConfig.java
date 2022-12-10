@@ -24,12 +24,18 @@ public class WebSecurityConfig {
 		return http
 				.authorizeHttpRequests(requests -> requests
 						.requestMatchers("/").permitAll()
+						.requestMatchers("/register").permitAll()
 						.requestMatchers("/admin/**").hasAuthority("ADMIN")
 						.requestMatchers("/moderator/**").hasAuthority("MODERATOR")
 						.requestMatchers("/user/**").hasAuthority("USER")
 						.requestMatchers("/**").authenticated())
 				
-				.formLogin(requests -> requests.permitAll())
+				.formLogin(requests -> requests
+					.loginPage("/login")
+					.loginProcessingUrl("/login")
+					.defaultSuccessUrl("/",true)
+					.failureUrl("/login?error=true")
+					.permitAll())
 
 				.logout(requests -> requests.permitAll())
 

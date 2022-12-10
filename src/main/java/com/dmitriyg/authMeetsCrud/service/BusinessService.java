@@ -10,6 +10,7 @@ import com.dmitriyg.authMeetsCrud.repository.BusinessRepository;
 
 @Service
 public class BusinessService {
+
 	@Autowired
 	BusinessRepository businessRepository;
 

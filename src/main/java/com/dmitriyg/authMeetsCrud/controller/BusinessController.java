@@ -60,7 +60,8 @@ public class BusinessController {
 	
 	@PostMapping("/save")
 	public String save(@ModelAttribute("business") Business business) {
-		business.setUser(userService.getCurrentAuthenticatedUser());
+		if (business.getUser() == null) business.setUser(userService.getCurrentAuthenticatedUser()); // if you are updating, then a user is already set in the business
+
 		businessService.save(business);
 
 		return "redirect:/business/list";
