@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +25,13 @@ import com.dmitriyg.authMeetsCrud.service.UserService;
 public class BusinessController {
 	
 	@Autowired
-	BusinessService businessService;
+	private BusinessService businessService;
 	
 	@Autowired
-	UserService userService;
+	private UserService userService;
+	
+	private static final String CHECK_IF_USER_OWNS_BUSINESS = "@userServiceImpl.getCurrentAuthenticatedUser().getId() == "
+			+ "@businessServiceImpl.findById(#id).get().getUser().getId()";
 
 	@GetMapping("/list")
 	public String list(Model model) {
@@ -48,6 +52,7 @@ public class BusinessController {
 		return "business/save";
 	}
 
+	@PreAuthorize(CHECK_IF_USER_OWNS_BUSINESS)
 	@GetMapping("/update")
 	public String updateForm(@RequestParam("businessId") int id, Model model) {
 		Optional<Business> business = businessService.findById(id);
@@ -55,7 +60,6 @@ public class BusinessController {
 		model.addAttribute("business", business.get());
 
 		return "business/save";
-			
 	}
 	
 	@PostMapping("/save")
@@ -67,12 +71,12 @@ public class BusinessController {
 		return "redirect:/business/list";
 	}
 	
+	@PreAuthorize(CHECK_IF_USER_OWNS_BUSINESS)
 	@GetMapping("/delete")
 	public String delete(@RequestParam("businessId") int id, Model model) {
 		businessService.deleteById(id);
 
 		return "redirect:/business/list";
-			
 	}
 
 }

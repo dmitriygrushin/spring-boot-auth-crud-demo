@@ -2,28 +2,14 @@ package com.dmitriyg.authMeetsCrud.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.dmitriyg.authMeetsCrud.model.Business;
-import com.dmitriyg.authMeetsCrud.repository.BusinessRepository;
 
-@Service
-public class BusinessService {
+public interface BusinessService {
 
-	@Autowired
-	BusinessRepository businessRepository;
+	void save(Business business);
 
-	public void save(Business business) {
-		businessRepository.save(business);
-	}
+	Optional<Business> findById(int id);
 
-	public Optional<Business> findById(int id) {
-		return businessRepository.findById(id);
-	}
-	
-	public void deleteById(int id) {
-		businessRepository.deleteById(id);
-	}
+	void deleteById(int id);
 
 }
