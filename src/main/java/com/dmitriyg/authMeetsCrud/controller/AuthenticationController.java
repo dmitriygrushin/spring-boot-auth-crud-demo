@@ -13,7 +13,7 @@ import com.dmitriyg.authMeetsCrud.service.UserService;
 public class AuthenticationController {
 	
 	@Autowired 
-	UserService userService;
+	private UserService userService;
 
 	@GetMapping("/register")
 	public String registrationForm(Model model) {
