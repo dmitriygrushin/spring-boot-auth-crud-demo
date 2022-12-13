@@ -18,15 +18,14 @@
 			<td th:text="${business.date}"/>
 
 			<td>  
-				<span th:if="${business.user.id == #authentication.getPrincipal().getUser().getId()}">
-					<a th:href="@{/business/update(businessId=${business.id})}">
-						Update
-					</a>	
-					|	
-					<a th:href="@{/business/delete(businessId=${business.id})}">
-						Delete
-					</a>	
-				</span>
+				<a th:href="@{/business/update(businessId=${business.id})}">
+					Update
+				</a>	
+				|	
+				<a th:href="@{/business/delete(businessId=${business.id})}">
+					Delete
+				</a>	
+				
 			</td>
 
 		</tr>	

@@ -1,7 +1,6 @@
 package com.dmitriyg.authMeetsCrud.controller;
 
 import java.time.LocalDate;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,14 +32,14 @@ public class BusinessController {
 	private static final String CHECK_IF_USER_OWNS_BUSINESS = "@userServiceImpl.getCurrentAuthenticatedUser().getId() == "
 			+ "@businessServiceImpl.findById(#id).get().getUser().getId()";
 
-	@GetMapping("/list")
-	public String list(Model model) {
+	@GetMapping("/my-list")
+	public String myList(Model model) {
 		int userId = userService.getCurrentAuthenticatedUser().getId();
 		User user = userService.getById(userId);
 		List<Business> businesses = user.getBusinesses();
 		model.addAttribute("businesses", businesses);
 
-		return "business/list";
+		return "business/my-list";
 	}
 
 	@GetMapping("/create")
@@ -79,4 +78,10 @@ public class BusinessController {
 		return "redirect:/business/list";
 	}
 
+	@GetMapping("/list")
+	public String list(Model model) {
+		model.addAttribute("businesses", businessService.findAll());
+		return "business/list";
+	}
+	
 }

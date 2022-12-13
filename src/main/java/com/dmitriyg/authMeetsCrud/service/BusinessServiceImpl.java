@@ -1,5 +1,6 @@
 package com.dmitriyg.authMeetsCrud.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ public class BusinessServiceImpl implements BusinessService {
 		return businessRepository.findById(id);
 	}
 	
+	@Override 
+	public List<Business> findAll() {
+		return businessRepository.findAll();
+	}
 	@Override
 	public void deleteById(int id) {
 		businessRepository.deleteById(id);
