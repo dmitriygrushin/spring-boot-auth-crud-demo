@@ -1,0 +1,15 @@
+<div th:replace="~{fragments/aboveMain.html}"></div>
+
+
+<h1 th:text="|Name: ${business.name}|"></h1>
+<br>
+<h2 th:text="|Description: ${business.description}|"></h2>
+<br>
+<h3 th:text="|On Welp since: ${business.date}|"></h3>
+<br>
+<h4 th:text="|Owner:  ${business.user.username}|"></h4>
+<br>
+<a th:href="@{/review/create(businessId=${business.id})}" th:text="|Write a Review on '${business.name}'|"></a>
+
+
+<div th:replace="~{fragments/belowMain.html}"></div>
