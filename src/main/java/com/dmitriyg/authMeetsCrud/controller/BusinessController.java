@@ -51,8 +51,8 @@ public class BusinessController {
 		return "business/save";
 	}
 
-	@PreAuthorize(CHECK_IF_USER_OWNS_BUSINESS)
 	@GetMapping("/update")
+	@PreAuthorize(CHECK_IF_USER_OWNS_BUSINESS)
 	public String updateForm(@RequestParam("businessId") int id, Model model) {
 		Optional<Business> business = businessService.findById(id);
 
@@ -71,8 +71,8 @@ public class BusinessController {
 		return "redirect:/business/list";
 	}
 	
-	@PreAuthorize(CHECK_IF_USER_OWNS_BUSINESS)
 	@GetMapping("/delete")
+	@PreAuthorize(CHECK_IF_USER_OWNS_BUSINESS)
 	public String delete(@RequestParam("businessId") int id, Model model) {
 		businessService.deleteById(id);
 

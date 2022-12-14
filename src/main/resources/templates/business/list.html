@@ -1,5 +1,6 @@
 <div th:replace="~{fragments/aboveMain.html}"></div>
 
+<h1>List of All Businesses</h1>
 
 <table class="table table-striped">
 	<thead>
@@ -7,28 +8,14 @@
 			<th scope="col">Name</th>
 			<th scope="col">Description</th>
 			<th scope="col">Date (YYYY-MM-DD)</th>
-			<th scope="col">Action</th>
 		</tr>
 	</thead>
 	
 	<tbody>
 		<tr th:each="business : ${businesses}"> 
-			<th scope="row" th:text="${business.name}"/>
+			<th scope="row"><a th:text="${business.name}" th:href="@{/business/view(businessId=${business.id})}"></a></th>
 			<td th:text="${business.description}"/>
 			<td th:text="${business.date}"/>
-
-			<td>  
-				<span th:if="${business.user.id == #authentication.getPrincipal().getUser().getId()}">
-					<a th:href="@{/business/update(businessId=${business.id})}">
-						Update
-					</a>	
-					|	
-					<a th:href="@{/business/delete(businessId=${business.id})}">
-						Delete
-					</a>	
-				</span>
-			</td>
-
 		</tr>	
 	</tbody>
 </table>
