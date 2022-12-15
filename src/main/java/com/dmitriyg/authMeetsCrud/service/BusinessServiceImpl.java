@@ -34,4 +34,13 @@ public class BusinessServiceImpl implements BusinessService {
 		businessRepository.deleteById(id);
 	}
 
+	@Override
+	public boolean checkIfUserOwnsBusiness(int userId, Business business) {
+		// new business so, no need to check
+		if (business.getId() == null) return true;
+		
+		// if there is 1 count of business by the businessId that has a userId then the userId owns this business
+		return businessRepository.countByUserIdAndId(userId, business.getId()) == 1;
+	}
+
 }

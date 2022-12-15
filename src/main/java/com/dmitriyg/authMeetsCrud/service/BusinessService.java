@@ -14,5 +14,7 @@ public interface BusinessService {
 	Optional<Business> findById(int id);
 
 	List<Business> findAll();
+	
+	boolean checkIfUserOwnsBusiness(int userId, Business business);
 
 }

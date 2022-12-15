@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,10 @@ public class BusinessController {
 	
 	private static final String CHECK_IF_USER_OWNS_BUSINESS = "@userServiceImpl.getCurrentAuthenticatedUser().getId() == "
 			+ "@businessServiceImpl.findById(#id).get().getUser().getId()";
+
+	private static final String POST_CHECK_IF_USER_OWNS_BUSINESS = 
+			"@businessServiceImpl.checkIfUserOwnsBusiness("
+			+ "@userServiceImpl.getCurrentAuthenticatedUser().getId(), #business)";
 
 	@GetMapping("/my-list")
 	public String myList(Model model) {
@@ -61,8 +66,8 @@ public class BusinessController {
 		return "business/save";
 	}
 	
-	// TODO: Add a @PreAuthorize on the @PostMappings too if a user tries to send a form post request using Postman
 	@PostMapping("/save")
+	@PreAuthorize(POST_CHECK_IF_USER_OWNS_BUSINESS)
 	public String save(@ModelAttribute("business") Business business) {
 		if (business.getUser() == null) business.setUser(userService.getCurrentAuthenticatedUser()); // if you are updating, then a user is already set in the business
 
