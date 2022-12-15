@@ -2,6 +2,7 @@ package com.dmitriyg.authMeetsCrud.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.dmitriyg.authMeetsCrud.model.Business;
 import com.dmitriyg.authMeetsCrud.model.Review;
 import com.dmitriyg.authMeetsCrud.model.User;
 import com.dmitriyg.authMeetsCrud.service.BusinessService;
@@ -33,32 +33,15 @@ public class ReviewController {
 	@Autowired
 	private BusinessService businessService;
 
-	// Do NOT allow owners to post reviews on their own business
-	private static final String CHECK_IF_USER_DOES_NOT_OWN_BUSINESS = "@userServiceImpl.getCurrentAuthenticatedUser().getId() != "
+	private static final String STOP_OWNER_FROM_REVIEWING = 
+			"@userServiceImpl.getCurrentAuthenticatedUser().getId() != "
 			+ "@businessServiceImpl.findById(#businessId).get().getUser().getId()";
 
-	@GetMapping("/test")
-	public String test(@RequestParam("reviewId") Integer id) {
-		List<Review> reviews = reviewService.findAllByBusinessId(id);
-		
-		for (Review review : reviews) {
-			System.out.println(review.getDescription());
-		}
-
-		return "/index";
-	}
-	
-	
-	@GetMapping("/create") 
-	@PreAuthorize(CHECK_IF_USER_DOES_NOT_OWN_BUSINESS)
-	public String createReview(@RequestParam("businessId") int businessId, Model model) {
-		Review review = new Review();
-		review.setBusiness(businessService.findById(businessId).get());
-		review.setDate(LocalDate.now());
-		model.addAttribute("review", review);
-		
-		return "review/save";
-	}
+	/* 
+	private static final String STOP_MULTIPLE_BUSINESS_REVIEWS_BY_USER = 
+			"@userServiceImpl.getCurrentAuthenticatedUser().getId() != "
+			+ "@businessServiceImpl.findById(#businessId).get().getUser().getId()";
+	*/
 
 	@GetMapping("/my-list") 
 	public String myList(Model model) {
@@ -71,12 +54,38 @@ public class ReviewController {
 	}
 	
 	
+	@GetMapping("/create") 
+	@PreAuthorize(STOP_OWNER_FROM_REVIEWING)
+	public String createForm(@RequestParam("businessId") int businessId, Model model) {
+		Review review = new Review();
+		review.setBusiness(businessService.findById(businessId).get());
+		review.setDate(LocalDate.now());
+		model.addAttribute("review", review);
+		
+		return "review/save";
+	}
+
+	@GetMapping("/update") 
+	public String updateForm(@RequestParam("reviewId") int reviewId, Model model) {
+		Optional<Review> review = reviewService.findById(reviewId);
+		model.addAttribute("review", review.get());
+		return "review/save";
+	}
+	
+	
 	@PostMapping("/save")
 	public String save(@ModelAttribute("review") Review review) {
 		if (review.getUser() == null) review.setUser(userService.getCurrentAuthenticatedUser());
 		reviewService.save(review);
 		return "redirect:/business/view?businessId=" + review.getBusiness().getId();
 	}
+	
+	 @GetMapping("/delete")
+	 public String delete(@RequestParam("reviewId") int id) {
+		 reviewService.deleteById(id);
+		 
+		 return "redirect:/review/my-list";
+	 }
 	
 	
 	

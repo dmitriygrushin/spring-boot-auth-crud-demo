@@ -9,6 +9,7 @@
 			<th scope="col">Description</th>
 			<th scope="col">Stars</th>
 			<th scope="col">Date (YYYY-MM-DD)</th>
+			<th scope="col">Action</th>
 		</tr>
 	</thead>
 	
@@ -19,6 +20,17 @@
 			<td th:text="${review.description}"/>
 			<td th:text="${review.stars}"/>
 			<td th:text="${review.date}"/>
+
+			<td>  
+				<a th:href="@{/review/update(reviewId=${review.id})}">
+					Update
+				</a>	
+				|	
+				<a th:href="@{/review/delete(reviewId=${review.id})}">
+					Delete
+				</a>	
+				
+			</td>
 
 
 		</tr>	
