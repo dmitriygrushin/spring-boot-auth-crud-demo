@@ -14,5 +14,7 @@ public interface ReviewService {
 	Optional<Review> findById(int id);
 	
 	List<Review> findAllByBusinessId(int id);
+	
+	boolean userReviewedBusiness(int userId, int businessId);
 
 }

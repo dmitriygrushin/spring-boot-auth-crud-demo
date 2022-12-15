@@ -40,11 +40,9 @@ public class ReviewController {
 	private static final String CHECK_IF_USER_OWNS_REVIEW = 
 			"@userServiceImpl.getCurrentAuthenticatedUser().getId() == "
 			+ "@reviewServiceImpl.findById(#id).get().getUser().getId()";
-	/* 
+	
 	private static final String STOP_MULTIPLE_BUSINESS_REVIEWS_BY_USER = 
-			"@userServiceImpl.getCurrentAuthenticatedUser().getId() != "
-			+ "@businessServiceImpl.findById(#businessId).get().getUser().getId()";
-	*/
+			"@reviewServiceImpl.userReviewedBusiness(@userServiceImpl.getCurrentAuthenticatedUser().getId(), #businessId)";
 
 	@GetMapping("/my-list") 
 	public String myList(Model model) {
@@ -57,7 +55,7 @@ public class ReviewController {
 	}
 	
 	@GetMapping("/create") 
-	@PreAuthorize(STOP_OWNER_FROM_REVIEWING)
+	@PreAuthorize(STOP_OWNER_FROM_REVIEWING + " && " + STOP_MULTIPLE_BUSINESS_REVIEWS_BY_USER)
 	public String createForm(@RequestParam("businessId") int businessId, Model model) {
 		Review review = new Review();
 		review.setBusiness(businessService.findById(businessId).get());

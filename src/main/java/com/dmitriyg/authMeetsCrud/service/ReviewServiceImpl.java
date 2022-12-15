@@ -35,4 +35,12 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewRepository.findAllByBusinessId(id);
 	}
 
+	@Override
+	public boolean userReviewedBusiness(int userId, int businessId) {
+		return reviewRepository.countByUserIdAndBusinessId(userId, businessId) == 0;
+	}
+	
+	
+
+
 }

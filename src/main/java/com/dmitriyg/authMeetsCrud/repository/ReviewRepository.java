@@ -8,4 +8,6 @@ import com.dmitriyg.authMeetsCrud.model.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 	List<Review> findAllByBusinessId(int id);
+	
+	int countByUserIdAndBusinessId(int userId, int businessId);
 }
