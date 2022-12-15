@@ -30,6 +30,9 @@
 		<li sec:authorize="isAuthenticated()" class="nav-item">
 		 <a class="nav-link" href="javascript: document.logoutForm.submit()" role="menuitem">Logout</a>
 		</li>
+		<li sec:authorize="isAuthenticated()" class="nav-item">
+		 <a class="nav-link" th:href="@{/review/my-list}" role="menuitem">My Reviews</a>
+		</li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">My Business Actions</a>
           <div class="dropdown-menu">

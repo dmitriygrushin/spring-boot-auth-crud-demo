@@ -37,6 +37,17 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="user", cascade={CascadeType.MERGE}) 
     private List<Business> businesses;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user", cascade={CascadeType.MERGE}) 
+    private List<Review> reviews;
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
 	public int getId() {
 		return id;
 	}

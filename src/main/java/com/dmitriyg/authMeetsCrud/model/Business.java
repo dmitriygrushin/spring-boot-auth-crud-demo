@@ -1,14 +1,17 @@
 package com.dmitriyg.authMeetsCrud.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,22 +32,27 @@ public class Business {
     @JoinColumn(name="user_id")
     private User user;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="business", cascade={CascadeType.MERGE}) 
+    private List<Review> reviews;
+
 	public Business() {
 	}
 
-	public Business(String name, String description, LocalDate date, User user) {
+	public Business(String name, String description, LocalDate date, User user, List<Review> reviews) {
 		this.name = name;
 		this.description = description;
 		this.date = date;
 		this.user = user;
+		this.reviews = reviews;
 	}
 
-	public Business(Long id, String name, String description, LocalDate date, User user) {
+	public Business(Long id, String name, String description, LocalDate date, User user, List<Review> reviews) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.date = date;
 		this.user = user;
+		this.reviews = reviews;
 	}
 
 	public Long getId() {
@@ -85,6 +93,14 @@ public class Business {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 
 	@Override

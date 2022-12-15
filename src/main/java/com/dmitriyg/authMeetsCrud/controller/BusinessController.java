@@ -51,8 +51,8 @@ public class BusinessController {
 		return "business/save";
 	}
 
-	@PreAuthorize(CHECK_IF_USER_OWNS_BUSINESS)
 	@GetMapping("/update")
+	@PreAuthorize(CHECK_IF_USER_OWNS_BUSINESS)
 	public String updateForm(@RequestParam("businessId") int id, Model model) {
 		Optional<Business> business = businessService.findById(id);
 
@@ -61,6 +61,7 @@ public class BusinessController {
 		return "business/save";
 	}
 	
+	// TODO: Add a @PreAuthorize on the @PostMappings too if a user tries to send a form post request using Postman
 	@PostMapping("/save")
 	public String save(@ModelAttribute("business") Business business) {
 		if (business.getUser() == null) business.setUser(userService.getCurrentAuthenticatedUser()); // if you are updating, then a user is already set in the business
@@ -70,8 +71,8 @@ public class BusinessController {
 		return "redirect:/business/list";
 	}
 	
-	@PreAuthorize(CHECK_IF_USER_OWNS_BUSINESS)
 	@GetMapping("/delete")
+	@PreAuthorize(CHECK_IF_USER_OWNS_BUSINESS)
 	public String delete(@RequestParam("businessId") int id, Model model) {
 		businessService.deleteById(id);
 
@@ -84,4 +85,11 @@ public class BusinessController {
 		return "business/list";
 	}
 	
+	@GetMapping("/view")
+	public String view(@RequestParam("businessId") int id, Model model) {
+		Optional<Business> business = businessService.findById(id);
+		model.addAttribute("business", business.get());
+		
+		return "business/view";
+	}
 }

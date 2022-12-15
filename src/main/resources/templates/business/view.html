@@ -1,0 +1,39 @@
+<div th:replace="~{fragments/aboveMain.html}"></div>
+
+
+<h1 th:text="|Name: ${business.name}|"></h1>
+<br>
+<h2 th:text="|Description: ${business.description}|"></h2>
+<br>
+<h3 th:text="|On Welp since: ${business.date}|"></h3>
+<br>
+<h4 th:text="|Owner:  ${business.user.username}|"></h4>
+<br>
+<a th:href="@{/review/create(businessId=${business.id})}" th:text="|Write a Review on '${business.name}'|"></a>
+
+
+
+<table class="table table-striped">
+	<thead>
+		<tr> 
+			<th scope="col">Description</th>
+			<th scope="col">Stars</th>
+			<th scope="col">Date (YYYY-MM-DD)</th>
+			<th scope="col">Posted By</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		<tr th:each="review : ${business.reviews}"> 
+			<!--<th scope="row"><a th:text="${review.name}" th:href="@{/review/view(businessId=${business.id})}"></a></th>  -->
+			<td th:text="${review.description}"/>
+			<td th:text="${review.stars}"/>
+			<td th:text="${review.date}"/>
+			<td th:text="${review.user.username}"/>
+
+		</tr>	
+	</tbody>
+</table>
+
+
+<div th:replace="~{fragments/belowMain.html}"></div>

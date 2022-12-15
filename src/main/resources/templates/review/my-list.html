@@ -1,0 +1,43 @@
+<div th:replace="~{fragments/aboveMain.html}"></div>
+
+<h1>My Reviews</h1>
+
+<table class="table table-striped">
+	<thead>
+		<tr> 
+			<th scope="col">Business</th>
+			<th scope="col">Description</th>
+			<th scope="col">Stars</th>
+			<th scope="col">Date (YYYY-MM-DD)</th>
+			<th scope="col">Action</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		<tr th:each="review : ${reviews}"> 
+			<!--<th scope="row"><a th:text="${review.name}" th:href="@{/review/view(businessId=${business.id})}"></a></th>  -->
+			<td><a th:text="${review.business.name}" th:href="@{/business/view(businessId=${review.business.id})}"></a></td>
+			<td th:text="${review.description}"/>
+			<td th:text="${review.stars}"/>
+			<td th:text="${review.date}"/>
+
+			<td>  
+				<a th:href="@{/review/update(reviewId=${review.id})}">
+					Update
+				</a>	
+				|	
+				<a th:href="@{/review/delete(reviewId=${review.id})}">
+					Delete
+				</a>	
+				
+			</td>
+
+
+		</tr>	
+	</tbody>
+</table>
+
+
+<br><br>
+
+<div th:replace="~{fragments/belowMain.html}"></div>
