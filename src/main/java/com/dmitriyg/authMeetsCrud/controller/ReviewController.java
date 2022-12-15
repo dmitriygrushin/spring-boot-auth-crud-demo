@@ -37,6 +37,9 @@ public class ReviewController {
 			"@userServiceImpl.getCurrentAuthenticatedUser().getId() != "
 			+ "@businessServiceImpl.findById(#businessId).get().getUser().getId()";
 
+	private static final String CHECK_IF_USER_OWNS_REVIEW = 
+			"@userServiceImpl.getCurrentAuthenticatedUser().getId() == "
+			+ "@reviewServiceImpl.findById(#id).get().getUser().getId()";
 	/* 
 	private static final String STOP_MULTIPLE_BUSINESS_REVIEWS_BY_USER = 
 			"@userServiceImpl.getCurrentAuthenticatedUser().getId() != "
@@ -53,7 +56,6 @@ public class ReviewController {
 		return "review/my-list";
 	}
 	
-	
 	@GetMapping("/create") 
 	@PreAuthorize(STOP_OWNER_FROM_REVIEWING)
 	public String createForm(@RequestParam("businessId") int businessId, Model model) {
@@ -65,13 +67,21 @@ public class ReviewController {
 		return "review/save";
 	}
 
+
 	@GetMapping("/update") 
-	public String updateForm(@RequestParam("reviewId") int reviewId, Model model) {
-		Optional<Review> review = reviewService.findById(reviewId);
+	@PreAuthorize(CHECK_IF_USER_OWNS_REVIEW)
+	public String updateForm(@RequestParam("reviewId") int id, Model model) {
+		Optional<Review> review = reviewService.findById(id);
 		model.addAttribute("review", review.get());
 		return "review/save";
 	}
 	
+	@GetMapping("/delete")
+	@PreAuthorize(CHECK_IF_USER_OWNS_REVIEW)
+	public String delete(@RequestParam("reviewId") int id) {
+		reviewService.deleteById(id);
+		return "redirect:/review/my-list";
+	}
 	
 	@PostMapping("/save")
 	public String save(@ModelAttribute("review") Review review) {
@@ -79,15 +89,6 @@ public class ReviewController {
 		reviewService.save(review);
 		return "redirect:/business/view?businessId=" + review.getBusiness().getId();
 	}
-	
-	 @GetMapping("/delete")
-	 public String delete(@RequestParam("reviewId") int id) {
-		 reviewService.deleteById(id);
-		 
-		 return "redirect:/review/my-list";
-	 }
-	
-	
 	
 	
 }
