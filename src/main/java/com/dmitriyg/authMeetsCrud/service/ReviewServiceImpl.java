@@ -39,6 +39,18 @@ public class ReviewServiceImpl implements ReviewService {
 	public boolean userReviewedBusiness(int userId, int businessId) {
 		return reviewRepository.countByUserIdAndBusinessId(userId, businessId) == 0;
 	}
+
+	@Override
+	public boolean checkIfUserOwnsReview(int userId, Review review) {
+		// new review so, no need to check
+		// checking if 0 instead of null unlike in business is because review id: int, business id: long 
+		// should change this later but it's not essential right now
+		if (review.getId() == 0) return true; 
+		
+		
+		// if there is 1 count of review by the reviewId that has a userId then the userId owns this review
+		return reviewRepository.countByUserIdAndId(userId, review.getId()) == 1;
+	}
 	
 	
 

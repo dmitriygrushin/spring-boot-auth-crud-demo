@@ -44,6 +44,10 @@ public class ReviewController {
 	private static final String STOP_MULTIPLE_BUSINESS_REVIEWS_BY_USER = 
 			"@reviewServiceImpl.userReviewedBusiness(@userServiceImpl.getCurrentAuthenticatedUser().getId(), #businessId)";
 
+	private static final String POST_CHECK_IF_USER_OWNS_REVIEW = 
+			"@reviewServiceImpl.checkIfUserOwnsReview("
+			+ "@userServiceImpl.getCurrentAuthenticatedUser().getId(), #review)";
+
 	@GetMapping("/my-list") 
 	public String myList(Model model) {
 		int userId = userService.getCurrentAuthenticatedUser().getId();
@@ -82,6 +86,7 @@ public class ReviewController {
 	}
 	
 	@PostMapping("/save")
+	@PreAuthorize(POST_CHECK_IF_USER_OWNS_REVIEW)
 	public String save(@ModelAttribute("review") Review review) {
 		if (review.getUser() == null) review.setUser(userService.getCurrentAuthenticatedUser());
 		reviewService.save(review);
